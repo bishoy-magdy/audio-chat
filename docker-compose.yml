@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  gateway:
+    build: .
+    ports:
+      - target: 8080
+        published: 8080
+    networks:
+      - audio-chat-net
+
+  backend-server:
+    build: ./server/.
+    environment:
+      - NODE_ENV=production
+    networks:
+      - audio-chat-net
+
+  redis-service:
+    image: 'redis@sha256:08a82d4bf8a8b4dd94e8f5408cdbad9dd184c1cf311d34176cd3e9972c43f872' # redis v7.0.12
+    networks:
+      - audio-chat-net
+
+  mongo-service:
+    image: 'mongo@sha256:20f3adcaffe2193e49dd502c8299b770d49a1e0643e0e9db250d5c127b1e9ed8' # mongo v6.0.8
+    networks:
+      - audio-chat-net
+
+networks:
+  audio-chat-net:
